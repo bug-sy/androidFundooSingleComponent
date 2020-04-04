@@ -4,18 +4,18 @@ import ImagePicker from 'react-native-image-picker';
 import React, { Component } from 'react'
 import { Text, Image, ScrollView } from 'react-native';
 import Drawer from '../components/Drawer'
+import { AsyncStorage } from 'react-native';
 import {
     StyleSheet,
     TouchableOpacity,
     View,
 } from 'react-native'
-import FlatlistNotes from '../FlatlistNotes/FlatlistNotes'
-import FlatListNotesUnpinned from '../FlatlistNotes/FlatListNotesUnpinned'
-import { handleProfilePic, getProfilePic } from '../SignUpDataLayer'
+import FlatlistNotessss from '../FlatlistNotes/FlatlistNotes'
+import { handleProfilePic, getProfilePic, SignOut } from '../SignUpDataLayer'
 
 const options = {
     title: 'Select Avatar',
-    customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
+    customButtons: [{ name: 'fb', title: 'Sign Out' ,    onPress :  () => console.log("hi")} ],
     storageOptions: {
       skipBackup: true,
       path: 'images',
@@ -28,7 +28,6 @@ export default class DashBoard extends Component {
         this.state = { 
             toggleGridOrList : false ,
             avatarSource : '',
-            //profilePic : '',
             condition : '',
         }
         getProfilePic((profilePic) => {
@@ -51,6 +50,10 @@ export default class DashBoard extends Component {
             } else if (response.error) {
               console.log('ImagePicker Error: ', response.error);
             } else if (response.customButton) {
+                SignOut(() => {
+                    this.props.navigation.navigate('Login'),
+                    AsyncStorage.setItem('authentication', "false")
+                })
               console.log('User tapped custom button: ', response.customButton);
             } else {
                 const source = { uri: response.uri };
@@ -65,20 +68,19 @@ export default class DashBoard extends Component {
         
         }
 
-
-
     render() {
         const { navigation } = this.props
         const xyz =  navigation.getParam('value','noValue')
-        //const label = navigation.getParam('label','no value')
         console.log("name**********************")
         console.log("name**********************")
         console.log("kjkjkjkj**********************",this.props.propName )
         console.log("xyz**********************",Object.values(xyz))
-      // {()=> this.setState({ condition : xyz }) }
         return (
             <View style = {{ flex : 1, flexDirection : 'column' }}>
 
+                {
+                     this.props.propName == 'Pin'
+                     ?
                 <View style = {{ width : '100%', flexDirection : 'row', height : 45, backgroundColor: '#999966', padding : 4, elevation : 20 }}>
                     <View style = {{ flexDirection : 'row', width : '80%' }}>
                         <View style = {{ flexDirection : 'row' }}>
@@ -129,37 +131,69 @@ export default class DashBoard extends Component {
                         </View>
                     </View>
                 </View>
-
-                {
-                 this.props.propName == 'Pin'
-                ?
-                <ScrollView>
-                    <View style = {{ justifyContent : 'center' }}>
-                        <FlatlistNotes
-                            navigation = { this.props.navigation }
-                            toggleGridOrList = { this.state.toggleGridOrList }
-                            propName = { this.props.propName }
-                        />
-                    </View>
-                    <View style = {{ justifyContent: 'center', marginBottom: 45 }}>
-                        <FlatListNotesUnpinned
-                            navigation = { this.props.navigation }
-                            toggleGridOrList = { this.state.toggleGridOrList }
-                            propName = { this.props.propName }
-                        />
-                    </View>
-                </ScrollView>
                 :
-                <ScrollView>
-                         <View style = {{ justifyContent : 'center' }}>
-                        <FlatlistNotes
+                                
+                
+                           <View style={{ width: '100%', flexDirection: 'row', height: 45, backgroundColor: '#999966', padding: 4 ,elevation:8}}>
+                    <View style={{ flexDirection: 'row', width: '80%' }}>
+                        <View style={{ flexDirection: 'row' }}>
+                            <TouchableOpacity style={{ width: '12%' }}
+                                onPress={() => this.props.navigation.toggleDrawer(Drawer)}
+                            >
+                                <Image
+                                    style={{ height: 34, width: 40 }}
+                                    source={require('/root/Desktop/fun-fundooApp/image/menuIcon2.png')}
+                                />
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{ width: '77%', height: '100%', justifyContent: 'center', flexDirection: 'row' }}>
+                                <Text
+                                    style={{ fontSize: 25 }}
+                                >
+                                   { this.props.propName }
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', width: '32%' }}>
+                                {
+                                    this.state.toggleGridOrList!=false
+                                    ?
+                                            <TouchableOpacity  onPress={()=>this.setState({ toggleGridOrList:!this.state.toggleGridOrList })}>
+                                            <Image
+                                            style={{ height: 39, width: 30 }}
+                                            source={require('/root/Desktop/fun-fundooApp/image/grid.png')}
+                                            />
+                                            </TouchableOpacity>
+                                    :
+                                  
+                                           <TouchableOpacity  onPress={()=>this.setState({ toggleGridOrList:!this.state.toggleGridOrList })}>
+                                           <Image
+                                               style={{ height: 39, width: 30 }}
+                                               source={require('/root/Desktop/fun-fundooApp/image/list.png')}
+                                              
+                                           />
+                                           </TouchableOpacity>
+                                }
+                    
+                        </View>
+                    </View>
+                </View> 
+                
+                
+                }
+
+              
+                
+                   <View style = {{ justifyContent : 'center',  marginBottom: 45 }}>
+                        <FlatlistNotessss
                             navigation = { this.props.navigation }
                             toggleGridOrList = { this.state.toggleGridOrList }
                             propName = { this.props.propName }
                         />
-                    </View>
-                </ScrollView>
-                }
+                   </View>
+           
+                
+               
+                
                  {
                  this.props.propName == 'Pin'
                  ?

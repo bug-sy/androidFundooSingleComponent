@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, View, FlatList, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { SafeAreaView, View, FlatList, StyleSheet, Text, TouchableOpacity, ScrollView } from 'react-native';
 import Constants from 'expo-constants';
 import { getNotes} from '../SignUpDataLayer/'
 import { Chip } from 'react-native-paper';
@@ -27,19 +27,33 @@ export default class FlatListNotesPinned extends React.Component {
   header = (headerName) => {
     return (
       <View >
-  <Text style = {{ fontSize: 30 }}>{headerName}</Text>
+  <Text style = {{ fontSize: 30 }}>{ headerName }</Text>
+      </View>);
+  }
+
+  headerOthers = () => {
+    return (
+      <View >
+  <Text style = {{ fontSize: 30 }}>{this.props.propName === 'Pin' ? "Others" : "" }</Text>
       </View>);
   }
 
   render() {
+    
     var moment = require('moment');
+    var unpinnedNote = [];
     var pinnedNote = [];
+
     if(this.props.propName == 'Pin'){
     Object.keys(this.state.notes).map((item) => {
       if (this.state.notes[item].pinStatus == true && this.state.notes[item].trashStatus == false
       ) {
         this.state.notes[item].noteId = item
         pinnedNote.push(this.state.notes[item])
+      }
+      if (this.state.notes[item].pinStatus == false && this.state.notes[item].archiveStatus == false && this.state.notes[item].trashStatus == false) {
+        this.state.notes[item].noteId = item
+        unpinnedNote.push(this.state.notes[item])
       }
     })
   }
@@ -66,10 +80,6 @@ export default class FlatListNotesPinned extends React.Component {
       ) {
         this.state.notes[item].noteId = item
         pinnedNote.push(this.state.notes[item])
-        console.log('*****************')
-        console.log('*****************')
-        console.log('*****************')
-        console.log('*****************',pinnedNote)
       
       }
     })
@@ -81,10 +91,6 @@ export default class FlatListNotesPinned extends React.Component {
       ) {
         this.state.notes[item].noteId = item
         pinnedNote.push(this.state.notes[item])
-        console.log('*****************')
-        console.log('*****************')
-        console.log('*****************')
-        console.log('*****************',pinnedNote)
       }
     })
   }
@@ -97,6 +103,7 @@ export default class FlatListNotesPinned extends React.Component {
         this.state.columnCount[0] = 1
     }
 
+
     {
       this.props.toggleGridOrList == false
         ?
@@ -104,6 +111,9 @@ export default class FlatListNotesPinned extends React.Component {
         :
         this.state.columnCountAnother[0] = 1
     }
+   
+
+   
 
     const Item = ({label, bgColor, List, pinStatus, trashStatus, archiveStatus, noteId, title, textNote, reminderDate, reminderTime,  activityProp }) => {
       return (
@@ -111,7 +121,7 @@ export default class FlatListNotesPinned extends React.Component {
           ?
             {
 
-            backgroundColor : bgColor?bgColor:'grey',
+            backgroundColor : bgColor ? bgColor:'grey',
             padding : 2,
             marginVertical : 4,
             marginHorizontal : 4,
@@ -142,7 +152,78 @@ export default class FlatListNotesPinned extends React.Component {
                 "archive" : archiveStatus, "noteId" : noteId,
                 "titleOfCurrentNote" : title, "note" : textNote,
                 "label" : label, "bgColor" : bgColor,
-                "activityProp" : activityProp
+                "activityProp" : activityProp,
+                "reminderDate" : reminderDate, "reminderTime" : reminderTime,
+              })}>
+            <Text style = { styles.title }>{ title }</Text>
+            <Text style = { styles.title }>{ textNote }</Text>
+            {
+              reminderDate 
+                ?
+                <Chip icon = { require('/root/Desktop/fun-fundooApp/image/alarm.png') } 
+                  style = {{ width : 160 }} onPress = { () => console.log('Pressed') }>
+                  { moment(reminderDate).format("MMM Do")},{ reminderTime }
+                </Chip>
+                :
+                null
+            }
+            
+            {
+              label 
+                ?
+              Object.getOwnPropertyNames(label).map((keyOfLabelName) => (
+                <Chip  style = {{ width : 100,marginTop : 4 }} >            
+                {label[keyOfLabelName].labelName}
+                </Chip>             
+              ))
+                :
+              null   
+            }
+             
+          </TouchableOpacity>
+        </View>
+      )
+    }
+
+    const ItemOthers = ({label, bgColor, List, pinStatus, trashStatus, archiveStatus, noteId, title, textNote, reminderDate, reminderTime,  activityProp }) => {
+      return (
+        <View style = {List == false
+          ?
+            {
+    
+            backgroundColor : bgColor?bgColor:'grey',
+            padding : 2,
+            marginVertical : 4,
+            marginHorizontal : 4,
+            width : '48%',
+            borderRadius : 6,
+            elevation : 4,
+            borderWidth : 0.25
+    
+            }
+            :
+            {
+    
+            backgroundColor :  bgColor ? bgColor : 'grey',
+            padding : 2,
+            marginVertical : 4,
+            marginHorizontal : 4,
+            width : '95%',
+            borderRadius : 6,
+            elevation : 4,
+            borderWidth : 0.25
+    
+            }
+        }>
+          <TouchableOpacity onPress = { () =>
+            this.props.navigation.navigate('VerticalIconOfEdit',
+              {
+                "pin" : pinStatus, "trash" : trashStatus,
+                "archive" : archiveStatus, "noteId" : noteId,
+                "titleOfCurrentNote" : title, "note" : textNote,
+                "label" : label, "bgColor" : bgColor,
+                "activityProp" : activityProp,
+                "reminderDate" : reminderDate, "reminderTime" : reminderTime,
               })}>
             <Text style = { styles.title }>{ title }</Text>
             <Text style = { styles.title }>{ textNote }</Text>
@@ -175,7 +256,9 @@ export default class FlatListNotesPinned extends React.Component {
     }
 
     return (
-      <SafeAreaView style = { styles.container }>
+      <ScrollView>
+      <View>
+      <View >
 
         <FlatList
           data = { pinnedNote }
@@ -193,19 +276,43 @@ export default class FlatListNotesPinned extends React.Component {
           }
           key = { this.state.columnCount[0] }
           numColumns = { this.state.columnCount[0] }
-          ListHeaderComponent = { this.header(this.props.propName) }
+          ListHeaderComponent = {  this.header(this.props.propName)  }
           stickyHeaderIndices = { [0] }
         />
+        </View>
 
-      </SafeAreaView>
+          <View>
+        <FlatList
+          data = { unpinnedNote  }
+          renderItem = {({ item }) => (console.log("Pinned items are ------------->>>>>> :", item)
+            ,
+            <ItemOthers List = { this.props.toggleGridOrList }
+              title = { item.title } textNote = { item.textNote }
+              noteId = { item.noteId } pinStatus = { item.pinStatus }
+              trashStatus = { item.trashStatus } archiveStatus = { item.archiveStatus }
+              reminderDate = { item.reminderDate } reminderTime = { item.reminderTime }
+              label = { item.noteLabel  ? item.noteLabel  : null }
+              bgColor = { item.bgColor  ? item.bgColor  : null }
+              activityProp = {this.props.propName}
+            />)
+          }
+          key = { this.state.columnCountAnother[0] }
+          numColumns = { this.state.columnCountAnother[0] }
+          ListHeaderComponent = { this.headerOthers() }
+          stickyHeaderIndices = { [0] }
+        />
+      </View>
+      </View>
+      </ScrollView>
+    
     );
   }
 }
 
 const styles = StyleSheet.create({
   container : {
-    flex : 2,
-    marginTop : Constants.statusBarHeight,
+    //flex : 2,
+    //marginTop : Constants.statusBarHeight,
     padding : 2,
   },
   gridItem : {

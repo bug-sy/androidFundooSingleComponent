@@ -9,44 +9,33 @@ import Drag from './Draggable'
 
 const MyDrawerNavigator = createDrawerNavigator({
     Dashboard : {
-        //screen : Dashboard,
-       // screen: (props) => <Dashboard  />
-        screen: (props) => <Dashboard {...props} propName={'Pin'} />
+        screen: (props) => <Dashboard { ...props } propName = { 'Pin' } />
     },
     CreateLabel : {
         screen : CreateLabel,
-
     },
     Drag : {
         screen : Drag,
     },
-    // SignUp : {
-    //     screen : SignUp,
-    // },
     Archive : {
-       // screen : Archive,
-        screen: (props) => <Dashboard {...props} propName={'Archive'} />
+        screen: (props) => <Dashboard { ...props } propName = { 'Archive' } />
     },
     ReminderPage : {
-       // screen : ReminderPage,
-        screen: (props) => <Dashboard {...props} propName={'Reminder'} />
+        screen: (props) => <Dashboard { ...props } propName = { 'Reminder' } />
      },
     TrashNotes : {
-       // screen : TrashNotes,
-        screen: (props) => <Dashboard {...props} propName={'Trash'} />
+        screen: (props) => <Dashboard { ...props } propName = { 'Trash' } />
     },
     Piechart : {
         screen : Piechart,
-    },
-     
+    }, 
 }, {
     initialRouteName : 'Dashboard',
-    contentComponent: SideMenu,
-    contentOptions: {
-      activeTintColor: '#000000',
-      activeBackgroundColor: '#e6e6e6',
+    contentComponent : SideMenu,
+    contentOptions : {
+      activeTintColor : '#000000',
+      activeBackgroundColor : '#e6e6e6',
     }
-
 });
 
 const Drawer = createAppContainer(MyDrawerNavigator);

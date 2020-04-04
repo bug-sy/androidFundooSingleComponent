@@ -167,7 +167,6 @@ const styles = StyleSheet.create({
     titleAndNote : {
         flexDirection : 'column',
         width : '100%',
-       // backgroundColor : 
     },
     note : {
         height : '60%',

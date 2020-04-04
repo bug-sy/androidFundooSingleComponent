@@ -129,7 +129,6 @@ export default class test extends Component {
             <Text >Others : </Text>
             <Text style = {{ height: 20, width: 30, backgroundColor: '#4CAF50' }}></Text>
           </View>
-
         </View>
         <View style = {{ alignItems: 'center' }}>
           <Text style = { styles.pieText }>Pie Chart </Text>

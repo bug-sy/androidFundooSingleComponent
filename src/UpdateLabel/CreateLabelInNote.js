@@ -14,8 +14,6 @@ export default class ArchivePage extends Component {
         }
     }
 
-
-
     changeLabel = (text) => {
          if(text !== null){
              this.setState({
@@ -33,8 +31,6 @@ export default class ArchivePage extends Component {
                     this.props.label[keyOfLabel].labelName === labelNameToBeDeleted
                     ?
                     deleteLabelNoteInNotes(this.props.noteId, keyOfLabel)
-                    
-                  
                     :
                     null  
               ))
@@ -59,8 +55,7 @@ export default class ArchivePage extends Component {
     render(){
         return(
                     <View style={styles.createLabel}>
-                    <TouchableOpacity 
-                                    
+                    <TouchableOpacity                
                     >
                         <Image
                             style={{ height: 40, width: 32 }}
@@ -95,8 +90,6 @@ export default class ArchivePage extends Component {
                     }
                     </View>
         )
-
-        
     }
 }
 

@@ -10,7 +10,6 @@ export default class VerticalIconOfEdit extends React.Component {
         visible : false,
         check : false,
         keyForDeletion : null,
-       // pin : false,
         text : '',
         pinStatus : false,
         archiveStatus : false,
@@ -20,8 +19,6 @@ export default class VerticalIconOfEdit extends React.Component {
         togglePinOrUnpin : false,
         toggleAlertion : false,
         archive : false,
-        reminderDate : '',
-        reminderTime : '',
         bgColor : ''
     };
 
@@ -38,50 +35,55 @@ export default class VerticalIconOfEdit extends React.Component {
     }
 
 
-  globalChangePin(pinStatus){
-    this.setState({ pinStatus : pinStatus },()=>{
-      console.log("Hi there checkToggle  ----->", this.state.pin)
-    })
-  }
+    globalChangePin(pinStatus){
+        this.setState({ pinStatus : pinStatus },()=>{
+        console.log("Hi there checkToggle  ----->", this.state.pinStatus)
+        })
+    }
 
-  globalChangeArchive(archive){
-    this.setState({ archive : archive },()=>{
-      console.log("archive status is  ----->", this.state.archive)
-    })
-  }
+    globalChangeArchive(archiveStatus){
+        this.setState({ archiveStatus : archiveStatus },()=>{
+        console.log("archive status is  ----->", this.state.archiveStatus)
+        })
+    }
 
-  globalChangeTitle(title){
-    this.setState({ title : title },()=>{
-      console.log("text is  ----->", this.state.title)
-    })
-  }
+    globalChangeTitle(title){
+        this.setState({ title : title },()=>{
+        console.log("text is  ----->", this.state.title)
+        })
+    }
 
-  globalChangeTextNote(textNote){
-    this.setState({ textNote : textNote },()=>{
-      console.log("textNote is  ----->",this.state.textNote)
-    })
-  }
+    globalChangeTextNote(textNote){
+        this.setState({ textNote : textNote },()=>{
+        console.log("textNote is  ----->",this.state.textNote)
+        })
+    }
 
-  handleDateTime = (date, time) => {
-    console.log("jhjhjh->", date, time)
-    this.setState({ reminderDate: date, reminderTime: time }, () => {
-        console.log("what time this time ------->>>>", this.state.reminderDate, this.state.reminderTime)
-    })
-  }
+    handleDateTime = (date, time) => {
+        console.log("jhjhjh->", date, time)
+        this.setState({ reminderDate: date, reminderTime: time }, () => {
+            console.log("what time this time ------->>>>", this.state.reminderDate, this.state.reminderTime)
+        })
+    }
 
-  handleTrashStatus = () => {
-    updateUserNote({
-        pinStatus : this.state.pinStatus,
-        archiveStatus : this.state.archiveStatus,
-        trashStatus : true,
-        title : this.state.title,
-        textNote : this.state.textNote,
-    }, this.state.noteUpdationId)
-}
+    handleTrashStatus = () => {
+        updateUserNote({
+            pinStatus : this.state.pinStatus,
+            archiveStatus : this.state.archiveStatus,
+            trashStatus : true,
+            title : this.state.title,
+            textNote : this.state.textNote,
+        }, this.state.noteUpdationId)
+    }
 
     handleNoteStatus = (propActivity) => {  
         if(propActivity == 'Archive')
         {
+            {console.log("arrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrcccccccccc", this.state.pinStatus,
+            this.state.archiveStatus,
+         this.state.title,
+         this.state.textNote,
+           this.props.bgColor,)}
         this.state.pinStatus == true
         ?
         updateUserNote({
@@ -125,15 +127,10 @@ export default class VerticalIconOfEdit extends React.Component {
     }      
     else 
     {
-        {console.log("Pinnnnnnnnnnn", this.state.pinStatus,
-        this.state.archiveStatus,
-     this.state.title,
-     this.state.textNote,
-       this.props.bgColor,)}
-        this.state.archiveStatus == true
+        this.state.archiveStatus !== false
         ?
         updateUserNote( {
-            pinStatus : false,
+            pinStatus : this.state.pinStatus,
             archiveStatus : this.state.archiveStatus,
             title : this.state.title,
             textNote : this.state.textNote,
@@ -143,7 +140,7 @@ export default class VerticalIconOfEdit extends React.Component {
         }, this.state.noteUpdationId)
         :
         updateUserNote({
-            pinStatus : this.state.pinStatus,
+            pinStatus : this.state.pinStatus ,
             archiveStatus : this.state.archiveStatus,
             title : this.state.title,
             textNote : this.state.textNote,
@@ -173,7 +170,9 @@ export default class VerticalIconOfEdit extends React.Component {
             archiveStatus : this.props.navigation.state.params.archive,
             label : this.props.navigation.state.params.label,
             bgColor : this.props.navigation.state.params.bgColor,
-            trashTag : this.props.navigation.state.params.trashTag
+            trashTag : this.props.navigation.state.params.trashTag,
+            reminderDate : this.props.navigation.state.params.reminderDate,
+            reminderTime : this.props.navigation.state.params.reminderTime,
             
         })
     }
@@ -196,7 +195,7 @@ export default class VerticalIconOfEdit extends React.Component {
                     globalDeletion = { this.globalDeletion.bind(this) }
                     pinStatus = { this.state.pinStatus }
                     globalChangePin = { this.globalChangePin.bind(this) }
-                    archive = { this.state.archive }
+                    archiveStatus = { this.state.archiveStatus }
                     globalChangeArchive = { this.globalChangeArchive.bind(this) }
                     title = { this.state.title }
                     globalChangeTitle = { this.globalChangeTitle.bind(this)}
@@ -273,7 +272,6 @@ export default class VerticalIconOfEdit extends React.Component {
                             <Menu.Item icon = { require('/root/Desktop/fun-fundooApp/image/CopyIcon.png') } onPress = { () => { } } title = "Make a copy" />
                             </Menu>
                         }
-              
                 </View>
             
             </Provider>

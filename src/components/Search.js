@@ -19,13 +19,13 @@ class SampleApp extends Component {
   
     render() {
       return (
-        <View style={styles.container}>
+        <View style = { styles.container }>
           <TextInput
-              placeholder="Type Hello"
-            style={styles.inputText}
-            onChangeText={ (text) => this.onChangeDo(text) }
+              placeholder = "Type Hello"
+            style = { styles.inputText }
+            onChangeText = { (text) => this.onChangeDo(text) }
               />
-          { this.state.hello && <Text style={ styles.hello }>Hello World</Text> }
+          { this.state.hello && <Text style = { styles.hello }>Hello World</Text> }
         </View>
       );
     }
@@ -34,15 +34,15 @@ class SampleApp extends Component {
 export default SampleApp
 
   var styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      marginTop: 60
+    container : {
+      flex : 1,
+      marginTop : 60
     },
-    inputText: {
-      height:60,
-      backgroundColor: '#ededed'
+    inputText : {
+      height : 60,
+      backgroundColor : '#ededed'
     },
-    hello: {
-      fontSize:22
+    hello : {
+      fontSize : 22
     }
   })

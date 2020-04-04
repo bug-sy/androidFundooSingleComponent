@@ -64,16 +64,16 @@ export default class EditNotesPinned extends Component {
                         }
 
                         {
-                              this.props.archive 
+                              this.props.archiveStatus 
                                 ?
-                                <TouchableOpacity onPress = { () => this.props.globalChangeArchive(!this.props.archive) }>
+                                <TouchableOpacity onPress = { () => this.props.globalChangeArchive(!this.props.archiveStatus) }>
                                     <Image
                                         style = {{ height : 33, width : 24 }}
                                         source = { require('/root/Desktop/fun-fundooApp/image/unArchive.png') }
                                     />
                                 </TouchableOpacity>
                                 :
-                                <TouchableOpacity onPress = { () => this.props.globalChangeArchive(!this.props.archive) }>
+                                <TouchableOpacity onPress = { () => this.props.globalChangeArchive(!this.props.archiveStatus) }>
                                     <Image
                                         style = {{ height : 33, width : 30  }}
                                         source = { require('/root/Desktop/fun-fundooApp/image/archive.png') }

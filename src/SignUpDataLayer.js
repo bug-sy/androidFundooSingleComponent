@@ -13,6 +13,17 @@ export function SignUp(firstName, lastName, email, password, callback) {
         return callback(firstName)
     }).catch((err) => { console.log('error =>', err) })
 }
+export function SignOut(callback) {
+    //console.log("sign out", uid)
+    AsyncStorage.removeItem('key').then((success) => {
+    console.log(success,"the signout")
+    return callback()
+    })
+
+//     AsyncStorage.removeItem('key').then((success) => {
+//     console.log(success.user,uid)
+// }).catch((err) => { console.log(err)})
+}
 
 export function SignIn(email, password, callback) {
     firebaseAuth.signInWithEmailAndPassword(
@@ -57,7 +68,7 @@ export function getProfilePic(callback) {
 export function updateUserNote(obj, noteUpdationId) {
     AsyncStorage.getItem('key').then((success) => {
         firebaseDatabaseRef.ref('/users /' + success + '/notes/' + noteUpdationId).update(obj);
-    }).catch((err) => { console.log('err in updation note =>', err) })
+    }).catch((err) => { console.log('err in updation note =>', err,obj) })
 }
 
 export function createLabelNoteInNotes(KeyOfNoteCard,labelKeyData) {
