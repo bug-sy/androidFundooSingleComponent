@@ -10,7 +10,7 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native'
-import FlatlistNotessss from '../FlatlistNotes/FlatlistNotes'
+import FlatlistNotes from '../FlatlistNotes/FlatlistNotes'
 import { handleProfilePic, getProfilePic, SignOut } from '../SignUpDataLayer'
 
 const options = {
@@ -76,23 +76,22 @@ export default class DashBoard extends Component {
         console.log("kjkjkjkj**********************",this.props.propName )
         console.log("xyz**********************",Object.values(xyz))
         return (
-            <View style = {{ flex : 1, flexDirection : 'column' }}>
-
+            <View style = { styles.mainStyle }>
                 {
                      this.props.propName == 'Pin'
                      ?
-                <View style = {{ width : '100%', flexDirection : 'row', height : 45, backgroundColor: '#999966', padding : 4, elevation : 20 }}>
-                    <View style = {{ flexDirection : 'row', width : '80%' }}>
-                        <View style = {{ flexDirection : 'row' }}>
-                            <TouchableOpacity style = {{ width : '12%' }}
+                <View style = { styles.headerBar }>
+                    <View style = { styles.innerMainBar }>
+                        <View style = { styles.toggleAndSearchContainer  }>
+                            <TouchableOpacity style = { styles.toggle }
                                 onPress = {() => this.props.navigation.toggleDrawer(Drawer)}
                             >
                                 <Image
-                                    style = {{ height : 34, width : 40 }}
+                                    style = { styles.toggleImageStyles }
                                     source = { require('/root/Desktop/fun-fundooApp/image/menuIcon2.png') }
                                 />
                             </TouchableOpacity>
-                            <TouchableOpacity style = {{ width : '87%', height : '100%', justifyContent : 'center', flexDirection : 'row' }}
+                            <TouchableOpacity style = { styles.search }
                             onPress = { () => this.props.navigation.navigate('SearchNotes') }>
                                 <Text
                                     style = {{ fontSize : 25 }}
@@ -101,7 +100,7 @@ export default class DashBoard extends Component {
                                 </Text>
                             </TouchableOpacity>
                         </View>
-                        <View style = {{ flexDirection : 'row', justifyContent : 'space-between', width : '25%' }}>
+                        <View style = { styles.gridListAndProfile }>
                             {
                                 this.state.toggleGridOrList != false
                                     ?
@@ -132,12 +131,10 @@ export default class DashBoard extends Component {
                     </View>
                 </View>
                 :
-                                
-                
-                           <View style={{ width: '100%', flexDirection: 'row', height: 45, backgroundColor: '#999966', padding: 4 ,elevation:8}}>
-                    <View style={{ flexDirection: 'row', width: '80%' }}>
-                        <View style={{ flexDirection: 'row' }}>
-                            <TouchableOpacity style={{ width: '12%' }}
+                <View style={ styles.headerBar }>
+                    <View style={ styles.innerMainBar }>
+                        <View style={ styles.toggleAndSearchContainer  }>
+                            <TouchableOpacity style={ styles.toggle  }
                                 onPress={() => this.props.navigation.toggleDrawer(Drawer)}
                             >
                                 <Image
@@ -145,7 +142,7 @@ export default class DashBoard extends Component {
                                     source={require('/root/Desktop/fun-fundooApp/image/menuIcon2.png')}
                                 />
                             </TouchableOpacity>
-                            <TouchableOpacity style={{ width: '77%', height: '100%', justifyContent: 'center', flexDirection: 'row' }}>
+                            <TouchableOpacity style = { styles.otherHeaderName }>
                                 <Text
                                     style={{ fontSize: 25 }}
                                 >
@@ -153,7 +150,7 @@ export default class DashBoard extends Component {
                                 </Text>
                             </TouchableOpacity>
                         </View>
-                        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', width: '32%' }}>
+                        <View style={ styles.gridOrList }>
                                 {
                                     this.state.toggleGridOrList!=false
                                     ?
@@ -173,31 +170,23 @@ export default class DashBoard extends Component {
                                            />
                                            </TouchableOpacity>
                                 }
-                    
                         </View>
                     </View>
                 </View> 
-                
-                
                 }
 
-              
-                
-                   <View style = {{ justifyContent : 'center',  marginBottom: 45 }}>
-                        <FlatlistNotessss
+                   <View style = { styles.notes }>
+                        <FlatlistNotes
                             navigation = { this.props.navigation }
                             toggleGridOrList = { this.state.toggleGridOrList }
                             propName = { this.props.propName }
                         />
                    </View>
-           
-                
-               
-                
+
                  {
                  this.props.propName == 'Pin'
                  ?
-                <View style = {{ flexDirection : 'row', bottom : 0, position : 'absolute', backgroundColor : '#999966' }}>
+                <View style = { styles.bottomBar }>
                     <View style = {{
                         flexDirection : 'row',
                         flex : 1,
@@ -226,13 +215,13 @@ export default class DashBoard extends Component {
                                     source = { require('/root/Desktop/fun-fundooApp/image/check-box.png') }
                                 />
                             </TouchableOpacity>
-                            <TouchableOpacity style = {{ height: 34 }}>
+                            <TouchableOpacity >
                                 <Image
                                     style = {{ height: 32, width: 32 }}
                                     source = { require('/root/Desktop/fun-fundooApp/image/add_image.png') }
                                 />
                             </TouchableOpacity>
-                            <TouchableOpacity style = {{ height: 34 }}>
+                            <TouchableOpacity >
                                 <Image
                                     style = {{ height: 32, width: 30 }}
                                     source = { require('/root/Desktop/fun-fundooApp/image/audio_recording.png') }
@@ -251,6 +240,64 @@ export default class DashBoard extends Component {
 }
 
 const styles = StyleSheet.create({
+    mainStyle : {
+        flex : 1,
+        flexDirection : 'column'
+    },
+    gridOrList : {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        width: '32%'
+    },
+    bottomBar : {
+        flexDirection : 'row',
+        bottom : 0,
+        position : 'absolute',
+        backgroundColor : '#999966'
+    },
+    notes : {
+        justifyContent : 'center',
+        marginBottom: 45 
+    },
+    otherHeaderName : {
+        width: '77%',
+        height: '100%',
+        justifyContent: 'center',
+        flexDirection: 'row'
+    },
+    search : {
+        width : '87%',
+        height : '100%',
+        justifyContent : 'center',
+        flexDirection : 'row'
+    },
+    toggleImageStyles : {
+        height : 34,
+        width : 40
+    },
+    gridListAndProfile : {
+        flexDirection : 'row',
+        justifyContent : 'space-between',
+        width : '25%' 
+    }, 
+    toggle : {
+        width : '12%'
+    }, 
+    toggleAndSearchContainer : {
+        flexDirection : 'row'
+    },
+    headerBar : {
+        width : '100%',
+        flexDirection : 'row',
+        height : 45,
+        backgroundColor: '#999966',
+        padding : 4,
+        elevation : 20
+    },
+    innerMainBar : {
+        flexDirection : 'row',
+        width : '80%'
+    },
     container : {
         flex : 1,
         paddingHorizontal : 10
